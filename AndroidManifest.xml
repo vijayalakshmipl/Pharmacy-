@@ -55,6 +55,10 @@
             android:name="com.prop.pharmacyapp.UserActivity" >
         </activity>
         
+          <activity
+            android:name="com.prop.pharmacyapp.OnlineShopActivity" >
+        </activity>
+        
     </application>
 
 </manifest>
