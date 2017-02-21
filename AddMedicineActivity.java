@@ -8,6 +8,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.prop.pharmacyapp.RegisterActivity.QuerySQL;
+
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.annotation.SuppressLint;
@@ -23,38 +25,38 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-public class RegisterActivity extends MainActivity {
+public class AddMedicineActivity extends MainActivity {
 
-	EditText edtName, edtMobileNo, edtEmail, edtusername,	edtPassword, edtprof;
+	EditText edtDisease, edtMedicine, edtStore, edtArea,edtAddress;
 Button btnSubmit,btnSubmit1;
 Connection conn;
 
-private String name, mobilenumber, email, username,prof, password;
+private String disease, medicine, store1, area, address;
 
 
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.register);
+		setContentView(R.layout.addmedicine);
 		
-		edtName = (EditText) findViewById(R.id.register_name);
-		edtusername = (EditText) findViewById(R.id.register_username);
-		edtEmail = (EditText) findViewById(R.id.register_email);
-		edtPassword = (EditText) findViewById(R.id.register_password);
-		edtMobileNo = (EditText) findViewById(R.id.register_phno);
-		edtprof = (EditText) findViewById(R.id.register_prof);
+		edtDisease = (EditText) findViewById(R.id.disease_name);
+		edtMedicine = (EditText) findViewById(R.id.medicine_name);
+		edtStore = (EditText) findViewById(R.id.store_name);
+		
+		edtArea = (EditText) findViewById(R.id.area_name);
+		edtAddress = (EditText) findViewById(R.id.address);
 	
-		btnSubmit = (Button) findViewById(R.id.register_btn_reg);
+		btnSubmit = (Button) findViewById(R.id.addmedicine_btn);
 		btnSubmit.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
-				name = edtName.getText().toString();
-				username = edtusername.getText().toString();
-				email = edtEmail.getText().toString();
-				password = edtPassword.getText().toString();
-				mobilenumber = edtMobileNo.getText().toString();
-				prof = edtprof.getText().toString();
+				disease = edtDisease.getText().toString();
+				medicine = edtMedicine.getText().toString();
+				store1 = edtStore.getText().toString();
+				
+				area = edtArea.getText().toString();
+				address = edtAddress.getText().toString();
 				try {
 					if(verify())
 					{
@@ -70,11 +72,11 @@ private String name, mobilenumber, email, username,prof, password;
 			}
 		});
 		
-		btnSubmit1 = (Button) findViewById(R.id.register_btn_cancel);
+		btnSubmit1 = (Button) findViewById(R.id.medicinebtn_cancel);
 		btnSubmit1.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
-				Intent i = new Intent(getApplicationContext(),MainActivity.class);
+				Intent i = new Intent(getApplicationContext(),AdminActivity.class);
 				startActivity(i);
 				
 				
@@ -83,18 +85,16 @@ private String name, mobilenumber, email, username,prof, password;
 
 	}
 	
+
 	public boolean verify()
 	{
 //		EditText name, userName, password, cpassword, email, phoneNumber;
 		Boolean ret=true;
-		if(edtName.getText().toString().length()<1){edtName.setError("Field Required");ret=false;}
-		if(edtusername.getText().toString().length()<1){edtusername.setError("Field Required");ret=false;}
-		if(edtPassword.getText().toString().length()<1){edtPassword.setError("Field Required");ret=false;}
-		if(edtprof.getText().toString().length()<1){edtprof.setError("Field Required");ret=false;}
-		if(!edtEmail.getText().toString().contains("@")){edtEmail.setError("E-Mail ID Invalid");ret=false;}
-		if(edtEmail.getText().toString().length()<1){edtEmail.setError("Field Required");ret=false;}
-		if(edtMobileNo.getText().toString().length()<10){edtMobileNo.setError("Invalid Phone Number");ret=false;}//It will Set but ok it wont be visible
-		if(edtMobileNo.getText().toString().length()<1){edtMobileNo.setError("Field Required");ret=false;}
+		if(edtDisease.getText().toString().length()<1){edtDisease.setError("Field Required");ret=false;}
+		if(edtMedicine.getText().toString().length()<1){edtMedicine.setError("Field Required");ret=false;}
+		if(edtStore.getText().toString().length()<1){edtStore.setError("Field Required");ret=false;}
+		if(edtArea.getText().toString().length()<1){edtArea.setError("Field Required");ret=false;}
+		if(edtAddress.getText().toString().length()<1){edtAddress.setError("Field Required");ret=false;}
 		
 		return ret;
 	}
@@ -109,9 +109,9 @@ private String name, mobilenumber, email, username,prof, password;
 	    protected void onPreExecute() {
 	        super.onPreExecute();
 	        
-	        pDialog = new ProgressDialog(RegisterActivity.this);
-	        pDialog.setTitle("Registration");
-	        pDialog.setMessage("Registering your credentials...");
+	        pDialog = new ProgressDialog(AddMedicineActivity.this);
+	        pDialog.setTitle("Adding Medicine");
+	        pDialog.setMessage("Adding the medicine...");
 	        pDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 	        pDialog.setIndeterminate(false);
 	        pDialog.setCancelable(false);
@@ -140,7 +140,7 @@ private String name, mobilenumber, email, username,prof, password;
 
 			try {
 				Statement statement = conn.createStatement();
-				int success=statement.executeUpdate("insert into userdetails values('"+name+"','"+username+"','"+password+"','"+prof+"','"+email+"','"+mobilenumber+"')");
+				int success=statement.executeUpdate("insert into medicinedetails values('"+disease+"','"+medicine+"','"+store1+"','"+area+"','"+address+"')");
 			
 				if (success >= 1) {
 					// successfully created product
@@ -173,13 +173,13 @@ private String name, mobilenumber, email, username,prof, password;
 	    	if(result1)
 	    	{
                 
-	    		Toast.makeText(getBaseContext(),"Successfully created your credentials." ,Toast.LENGTH_LONG).show();
+	    		Toast.makeText(getBaseContext(),"Successfully added a medicine." ,Toast.LENGTH_LONG).show();
 					
 //					System.out.println("ELSE(JSON) LOOP EXE");
 					try {// try3 open
 						
 						Intent i = new Intent(getApplicationContext(),
-								LoginActivity.class);
+								AdminActivity.class);
 						startActivity(i);		
 						
 					} catch (Exception e1) {
