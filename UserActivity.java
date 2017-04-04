@@ -14,7 +14,7 @@ import android.widget.ImageButton;
 
 public class UserActivity extends Activity {
 
-	ImageButton onlineshop1;
+	ImageButton onlineshop1,drugview2,storebtn1;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -22,6 +22,8 @@ public class UserActivity extends Activity {
 		
 		
 		onlineshop1 = (ImageButton) findViewById(R.id.o);
+		drugview2 = (ImageButton) findViewById(R.id.imageButton2);
+		storebtn1 = (ImageButton) findViewById(R.id.imageButton);
 		
 		
 		onlineshop1.setOnClickListener(new OnClickListener(){
@@ -32,6 +34,36 @@ public class UserActivity extends Activity {
 				
 				
 				startActivity(new Intent(UserActivity.this,OnlineShopActivity.class));
+					
+				
+				
+			}
+			
+		});
+		
+		drugview2.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				
+				
+				startActivity(new Intent(UserActivity.this,DrugViewActivity.class));
+					
+				
+				
+			}
+			
+		});
+		
+		storebtn1.setOnClickListener(new OnClickListener(){
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				
+				
+				startActivity(new Intent(UserActivity.this,MapPage.class));
 					
 				
 				

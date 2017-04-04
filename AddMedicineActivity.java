@@ -7,6 +7,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.prop.pharmacyapp.RegisterActivity.QuerySQL;
 
@@ -23,15 +26,18 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 public class AddMedicineActivity extends MainActivity {
 
-	EditText edtDisease, edtMedicine, edtStore, edtArea,edtAddress;
-Button btnSubmit,btnSubmit1;
+	EditText edtDisease, edtMedicine, edtprice, edtavail;
+Button btnSubmit,btnSubmit1,btnSubmit2;
+ImageView image;
+
 Connection conn;
 
-private String disease, medicine, store1, area, address;
+private String medicine,price,avail;
 
 
 	
@@ -40,23 +46,27 @@ private String disease, medicine, store1, area, address;
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.addmedicine);
 		
-		edtDisease = (EditText) findViewById(R.id.disease_name);
-		edtMedicine = (EditText) findViewById(R.id.medicine_name);
-		edtStore = (EditText) findViewById(R.id.store_name);
 		
-		edtArea = (EditText) findViewById(R.id.area_name);
-		edtAddress = (EditText) findViewById(R.id.address);
+		edtMedicine = (EditText) findViewById(R.id.medicine_name);
+		edtprice = (EditText) findViewById(R.id.med_price);
+		
+		
+		edtavail = (EditText) findViewById(R.id.med_avail);
+		image = (ImageView) findViewById(R.id.imageView1);
 	
 		btnSubmit = (Button) findViewById(R.id.addmedicine_btn);
 		btnSubmit.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
-				disease = edtDisease.getText().toString();
-				medicine = edtMedicine.getText().toString();
-				store1 = edtStore.getText().toString();
 				
-				area = edtArea.getText().toString();
-				address = edtAddress.getText().toString();
+				medicine = edtMedicine.getText().toString();
+				price = edtprice.getText().toString();
+				
+				avail = edtavail.getText().toString();
+				
+				
+				
+				
 				try {
 					if(verify())
 					{
@@ -82,6 +92,50 @@ private String disease, medicine, store1, area, address;
 				
 			}
 		});
+		
+		btnSubmit2 = (Button) findViewById(R.id.view_btn);
+		btnSubmit2.setOnClickListener(new OnClickListener() {
+
+			public void onClick(View v) {
+				final Random rand = new Random();
+				int diceRoll = rand.nextInt(8) + 1;
+				
+				if(diceRoll==1)
+				{
+					image.setImageResource(R.drawable.m1);
+				}
+				if(diceRoll==2)
+				{
+					image.setImageResource(R.drawable.m2);
+				}
+				if(diceRoll==3)
+				{
+					image.setImageResource(R.drawable.m3);
+				}
+				if(diceRoll==4)
+				{
+					image.setImageResource(R.drawable.m4);
+				}
+				if(diceRoll==5)
+				{
+					image.setImageResource(R.drawable.m5);
+				}
+				if(diceRoll==6)
+				{
+					image.setImageResource(R.drawable.m6);
+				}
+				if(diceRoll==7)
+				{
+					image.setImageResource(R.drawable.m7);
+				}
+				if(diceRoll==8)
+				{
+					image.setImageResource(R.drawable.m8);
+				}
+				
+				
+			}
+		});
 
 	}
 	
@@ -90,11 +144,34 @@ private String disease, medicine, store1, area, address;
 	{
 //		EditText name, userName, password, cpassword, email, phoneNumber;
 		Boolean ret=true;
-		if(edtDisease.getText().toString().length()<1){edtDisease.setError("Field Required");ret=false;}
 		if(edtMedicine.getText().toString().length()<1){edtMedicine.setError("Field Required");ret=false;}
-		if(edtStore.getText().toString().length()<1){edtStore.setError("Field Required");ret=false;}
-		if(edtArea.getText().toString().length()<1){edtArea.setError("Field Required");ret=false;}
-		if(edtAddress.getText().toString().length()<1){edtAddress.setError("Field Required");ret=false;}
+		if(edtprice.getText().toString().length()<1){edtprice.setError("Field Required");ret=false;}
+		String expression = "^([0-9\\+]|\\(\\d{0,1}\\))[0-9\\-\\. ]{0,15}$";
+        CharSequence inputString = edtprice.getText().toString();
+        Pattern pattern = Pattern.compile(expression);
+        Matcher matcher = pattern.matcher(inputString);
+        if (matcher.matches())
+        {
+		
+        }
+        else
+        {
+        	edtprice.setError("Invalid Number");ret=false;
+        }
+		if(edtavail.getText().toString().length()<1){edtavail.setError("Field Required");ret=false;}
+		String expression1 = "^([0-9\\+]|\\(\\d{0,1}\\))[0-9\\-\\. ]{0,15}$";
+        CharSequence inputString1 = edtavail.getText().toString();
+        Pattern pattern1 = Pattern.compile(expression1);
+        Matcher matcher1 = pattern.matcher(inputString1);
+        if (matcher1.matches())
+        {
+		
+        }
+        else
+        {
+        	edtavail.setError("Invalid Number");ret=false;
+        }
+		
 		
 		return ret;
 	}
@@ -140,7 +217,7 @@ private String disease, medicine, store1, area, address;
 
 			try {
 				Statement statement = conn.createStatement();
-				int success=statement.executeUpdate("insert into medicinedetails values('"+disease+"','"+medicine+"','"+store1+"','"+area+"','"+address+"')");
+				int success=statement.executeUpdate("insert into medicinedetails values('"+medicine+"','"+price+"','"+avail+"')");
 			
 				if (success >= 1) {
 					// successfully created product

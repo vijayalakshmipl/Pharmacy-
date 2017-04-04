@@ -7,8 +7,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import com.prop.pharmacyapp.RegisterActivity.QuerySQL;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -23,40 +26,49 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
-public class RegisterActivity extends MainActivity {
+public class AddDrugActivity extends MainActivity {
 
-	EditText edtName, edtMobileNo, edtEmail, edtusername,	edtPassword, edtprof;
-Button btnSubmit,btnSubmit1;
+	EditText edtchem, edtMedicine, edtusage, edtside;
+Button btnSubmit,btnSubmit1,btnSubmit2;
+ImageView image;
+
 Connection conn;
 
-private String name, mobilenumber, email, username,prof, password;
+private String medicine,chem,usage,side;
 
 
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.register);
+		setContentView(R.layout.adddrug);
 		
-		edtName = (EditText) findViewById(R.id.register_name);
-		edtusername = (EditText) findViewById(R.id.register_username);
-		edtEmail = (EditText) findViewById(R.id.register_email);
-		edtPassword = (EditText) findViewById(R.id.register_password);
-		edtMobileNo = (EditText) findViewById(R.id.register_phno);
-		edtprof = (EditText) findViewById(R.id.register_prof);
+		
+		edtMedicine = (EditText) findViewById(R.id.medicine_name1);
+		edtchem = (EditText) findViewById(R.id.med_chemcomp);
+		
+		
+		edtusage = (EditText) findViewById(R.id.med_usage);
+		edtside = (EditText) findViewById(R.id.med_sideeffect);
+		
 	
-		btnSubmit = (Button) findViewById(R.id.register_btn_reg);
+		btnSubmit = (Button) findViewById(R.id.addmedicine_btn1);
 		btnSubmit.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
-				name = edtName.getText().toString();
-				username = edtusername.getText().toString();
-				email = edtEmail.getText().toString();
-				password = edtPassword.getText().toString();
-				mobilenumber = edtMobileNo.getText().toString();
-				prof = edtprof.getText().toString();
+				
+				medicine = edtMedicine.getText().toString();
+				chem = edtchem.getText().toString();
+				
+				usage = edtusage.getText().toString();
+				side = edtside.getText().toString();
+				
+				
+				
+				
 				try {
 					if(verify())
 					{
@@ -72,46 +84,31 @@ private String name, mobilenumber, email, username,prof, password;
 			}
 		});
 		
-		btnSubmit1 = (Button) findViewById(R.id.register_btn_cancel);
+		btnSubmit1 = (Button) findViewById(R.id.medicinebtn_cancel1);
 		btnSubmit1.setOnClickListener(new OnClickListener() {
 
 			public void onClick(View v) {
-				Intent i = new Intent(getApplicationContext(),MainActivity.class);
+				Intent i = new Intent(getApplicationContext(),AdminActivity.class);
 				startActivity(i);
 				
 				
 			}
 		});
-
+		
+		
 	}
 	
+
 	public boolean verify()
 	{
 //		EditText name, userName, password, cpassword, email, phoneNumber;
 		Boolean ret=true;
-		if(edtName.getText().toString().length()<1){edtName.setError("Field Required");ret=false;}
-		if(edtusername.getText().toString().length()<1){edtusername.setError("Field Required");ret=false;}
-		if(edtPassword.getText().toString().length()<1){edtPassword.setError("Field Required");ret=false;}
-		if(edtprof.getText().toString().length()<1){edtprof.setError("Field Required");ret=false;}
-		if(!edtPassword.getText().toString().equals(edtprof.getText().toString())){edtPassword.setError("Password not same");ret=false;}
+		if(edtMedicine.getText().toString().length()<1){edtMedicine.setError("Field Required");ret=false;}
+		if(edtchem.getText().toString().length()<1){edtchem.setError("Field Required");ret=false;}
 		
-		if(!edtEmail.getText().toString().contains("@")){edtEmail.setError("E-Mail ID Invalid");ret=false;}
-		if(edtEmail.getText().toString().length()<1){edtEmail.setError("Field Required");ret=false;}
-		if(edtMobileNo.getText().toString().length()<10){edtMobileNo.setError("Invalid Phone Number");ret=false;}//It will Set but ok it wont be visible
-		if(edtMobileNo.getText().toString().length()<1){edtMobileNo.setError("Field Required");ret=false;}
+		if(edtusage.getText().toString().length()<1){edtusage.setError("Field Required");ret=false;}
+		if(edtside.getText().toString().length()<1){edtside.setError("Field Required");ret=false;}
 		
-		String expression = "^([0-9\\+]|\\(\\d{0,1}\\))[0-9\\-\\. ]{0,15}$";
-        CharSequence inputString = edtMobileNo.getText().toString();
-        Pattern pattern = Pattern.compile(expression);
-        Matcher matcher = pattern.matcher(inputString);
-        if (matcher.matches())
-        {
-		
-        }
-        else
-        {
-        	edtMobileNo.setError("Invalid Number");ret=false;
-        }
 		
 		
 		return ret;
@@ -127,9 +124,9 @@ private String name, mobilenumber, email, username,prof, password;
 	    protected void onPreExecute() {
 	        super.onPreExecute();
 	        
-	        pDialog = new ProgressDialog(RegisterActivity.this);
-	        pDialog.setTitle("Registration");
-	        pDialog.setMessage("Registering your credentials...");
+	        pDialog = new ProgressDialog(AddDrugActivity.this);
+	        pDialog.setTitle("Adding Medicine");
+	        pDialog.setMessage("Adding the medicine...");
 	        pDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 	        pDialog.setIndeterminate(false);
 	        pDialog.setCancelable(false);
@@ -158,7 +155,7 @@ private String name, mobilenumber, email, username,prof, password;
 
 			try {
 				Statement statement = conn.createStatement();
-				int success=statement.executeUpdate("insert into userdetails values('"+name+"','"+username+"','"+password+"','"+email+"','"+mobilenumber+"')");
+				int success=statement.executeUpdate("insert into drugdetails values('"+medicine+"','"+chem+"','"+usage+"','"+side+"')");
 			
 				if (success >= 1) {
 					// successfully created product
@@ -191,13 +188,13 @@ private String name, mobilenumber, email, username,prof, password;
 	    	if(result1)
 	    	{
                 
-	    		Toast.makeText(getBaseContext(),"Successfully created your credentials." ,Toast.LENGTH_LONG).show();
+	    		Toast.makeText(getBaseContext(),"Successfully added a medicine." ,Toast.LENGTH_LONG).show();
 					
 //					System.out.println("ELSE(JSON) LOOP EXE");
 					try {// try3 open
 						
 						Intent i = new Intent(getApplicationContext(),
-								LoginActivity.class);
+								AdminActivity.class);
 						startActivity(i);		
 						
 					} catch (Exception e1) {

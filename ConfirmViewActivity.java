@@ -11,39 +11,26 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 
-public class AdminActivity extends Activity {
+public class ConfirmViewActivity extends Activity {
 
-	Button addbtn1,viewbtn1;
+	Button adminbtn1,userbtn1;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.admin_main);
+		setContentView(R.layout.confirm_order);
 		
-		addbtn1=(Button)findViewById(R.id.addmedbtn);
-		viewbtn1=(Button)findViewById(R.id.viewmedbtn);
+		//adminbtn1=(Button)findViewById(R.id.button1);
+		userbtn1=(Button)findViewById(R.id.button1);
 		
 		
-		addbtn1.setOnClickListener(new OnClickListener(){
+		
+		userbtn1.setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				
-				
-				startActivity(new Intent(AdminActivity.this,AddMedicineActivity.class));
-					
-				
-				
-			}
-			
-		});
-		viewbtn1.setOnClickListener(new OnClickListener(){
-
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				
-				startActivity(new Intent(AdminActivity.this,AddDrugActivity.class));		
+				startActivity(new Intent(ConfirmViewActivity.this,UserActivity.class));		
 				
 			}
 			

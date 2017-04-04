@@ -13,7 +13,7 @@
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <EditText
-        android:id="@+id/register_name"
+        android:id="@+id/con_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Name"
@@ -30,10 +30,10 @@
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <EditText
-        android:id="@+id/register_username"
+        android:id="@+id/con_addr"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="User Name"
+        android:hint="Address"
         android:ems="10" />
 
     <TextView
@@ -44,12 +44,11 @@
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <EditText
-        android:id="@+id/register_password"
+        android:id="@+id/con_landmark"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Password"
-        android:inputType="textPassword" />
+        android:hint="Landmark"
+        android:ems="10" />
 
     <TextView
         android:id="@+id/textView3"
@@ -58,27 +57,14 @@
         android:text=" "
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
-       <EditText
-        android:id="@+id/register_prof"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Re-enter Password" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=" "
-        
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+    
 
     <EditText
-        android:id="@+id/register_email"
+        android:id="@+id/con_pincode"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="E-Mail ID"
+        android:hint="Pincode"
         android:inputType="textEmailAddress" />
 
     <TextView
@@ -89,11 +75,11 @@
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <EditText
-        android:id="@+id/register_phno"
+        android:id="@+id/con_phno"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Telephone Number" />
+        android:hint="Mobile Number" />
 
     <TextView
         android:id="@+id/textView6"
@@ -107,14 +93,14 @@
         android:layout_height="wrap_content" >
 
         <Button
-            android:id="@+id/register_btn_reg"
+            android:id="@+id/con_btn_reg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.52"
-            android:text="Register" />
+            android:text="Confirm" />
 
         <Button
-            android:id="@+id/register_btn_cancel"
+            android:id="@+id/con_btn_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.70"

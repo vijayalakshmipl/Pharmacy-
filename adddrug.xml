@@ -2,25 +2,18 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" 
-    android:background="@drawable/background">
+    android:background="@drawable/background"
+    android:orientation="vertical" >
 
     <TextView
-        android:id="@+id/textView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=" "
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <EditText
-        android:id="@+id/register_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Name"
-        android:ems="10" >
-
-        <requestFocus />
-    </EditText>
+        android:id="@+id/textView1"
+        android:layout_width="227dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:text="MEDICINE DETAILS"
+        android:textSize="25dp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/textView1"
@@ -30,11 +23,14 @@
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <EditText
-        android:id="@+id/register_username"
+        android:id="@+id/medicine_name1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="User Name"
-        android:ems="10" />
+        android:ems="10"
+        android:hint="Medicine Name" >
+
+        <requestFocus />
+    </EditText>
 
     <TextView
         android:id="@+id/textView2"
@@ -44,12 +40,11 @@
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <EditText
-        android:id="@+id/register_password"
+        android:id="@+id/med_chemcomp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Password"
-        android:inputType="textPassword" />
+        android:hint="Chemical Composition" />
 
     <TextView
         android:id="@+id/textView3"
@@ -57,29 +52,27 @@
         android:layout_height="wrap_content"
         android:text=" "
         android:textAppearance="?android:attr/textAppearanceLarge" />
-
-       <EditText
-        android:id="@+id/register_prof"
+    
+     <EditText
+        android:id="@+id/med_usage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="Re-enter Password" />
-
+        android:hint="Usage" />
+     
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text=" "
-        
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
     <EditText
-        android:id="@+id/register_email"
+        android:id="@+id/med_sideeffect"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
-        android:hint="E-Mail ID"
-        android:inputType="textEmailAddress" />
+        android:hint="Side Effects" />
 
     <TextView
         android:id="@+id/textView5"
@@ -87,13 +80,6 @@
         android:layout_height="wrap_content"
         android:text=" "
         android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <EditText
-        android:id="@+id/register_phno"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="Telephone Number" />
 
     <TextView
         android:id="@+id/textView6"
@@ -107,19 +93,18 @@
         android:layout_height="wrap_content" >
 
         <Button
-            android:id="@+id/register_btn_reg"
+            android:id="@+id/addmedicine_btn1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.52"
-            android:text="Register" />
+            android:text="Add" />
 
         <Button
-            android:id="@+id/register_btn_cancel"
+            android:id="@+id/medicinebtn_cancel1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.70"
             android:text="Cancel" />
-
     </LinearLayout>
 
 </LinearLayout>

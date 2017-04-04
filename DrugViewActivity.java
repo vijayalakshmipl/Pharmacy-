@@ -1,89 +1,88 @@
 package com.prop.pharmacyapp;
 
+
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Random;
 
-import org.json.JSONException;
-
-
-
-
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
+import com.prop.pharmacyapp.LoginActivity.QuerySQL;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
-public class LoginActivity extends MainActivity  {
+public class DrugViewActivity extends Activity {
 
+	Button onlineshop1,cancel1;
+	Button buybtn;
+	ImageView image;
+	TextView textView22,textView33,textView44;
+	EditText edtsearch,edtqty,edtprice;
+	String searchitem,sitem,price,totprice,qty,s1,s2,s3;
+	int n=0;
 	Connection conn;
-	EditText username,password,hostIP;
-	Button signin,signup;
-	String user,pass,user1,pass1;
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.login);
-		signin=(Button)findViewById(R.id.loginbtn);
-		signup=(Button)findViewById(R.id.regbtn);
+		setContentView(R.layout.drug_view);
 		
 		
-		username=(EditText)findViewById(R.id.edtloginusername);
-		password=(EditText)findViewById(R.id.edtloginpassword);
-//		conn=CONN();
-		signin.setOnClickListener(new OnClickListener(){
+		textView22 = (TextView) findViewById(R.id.textView2);
+		textView33 = (TextView) findViewById(R.id.textView3);
+		textView44 = (TextView) findViewById(R.id.textView4);
+		edtsearch=(EditText)findViewById(R.id.medicine_name);
+		
+		
+		
+		onlineshop1=(Button)findViewById(R.id.drugview_btn);
+
+		
+		onlineshop1.setOnClickListener(new OnClickListener(){
 
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
 				
-				user=username.getText().toString();
-				pass=password.getText().toString();
-				SharedPreferences.Editor editor =getSharedPreferences("username",Context.MODE_PRIVATE).edit();
-                editor.putString("username",user);
-                editor.commit();
-                editor.apply();
-				Log.d("username",user);
-				Log.d("password",pass);
+				searchitem=edtsearch.getText().toString();
 				
-				//startActivity(new Intent(MainActivity.this,LoginActivity.class));
 					
-				new QuerySQL().execute(user,pass);
+				new QuerySQL().execute(searchitem);
 				
 			}
 			
 		});
-		signup.setOnClickListener(new OnClickListener(){
+	
+		cancel1 = (Button) findViewById(R.id.drugcancel_btn);
+		cancel1.setOnClickListener(new OnClickListener() {
 
-			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				Intent i = new Intent(getApplicationContext(),UserActivity.class);
+				startActivity(i);
 				
-				startActivity(new Intent(LoginActivity.this,RegisterActivity.class));		
 				
 			}
-			
 		});
+		
 	}
 
-	
-	
 	public class QuerySQL extends AsyncTask<String, Void, Boolean> {
 
 		ProgressDialog pDialog ;
@@ -93,9 +92,9 @@ public class LoginActivity extends MainActivity  {
 	    protected void onPreExecute() {
 	        super.onPreExecute();
 	        
-	        pDialog = new ProgressDialog(LoginActivity.this);
-	        pDialog.setTitle("Authentication");
-	        pDialog.setMessage("Verifying your credentials...");
+	        pDialog = new ProgressDialog(DrugViewActivity.this);
+	        pDialog.setTitle("View Drug");
+	        pDialog.setMessage("Getting Drug details...");
 	        pDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 	        pDialog.setIndeterminate(false);
 	        pDialog.setCancelable(false);
@@ -105,8 +104,8 @@ public class LoginActivity extends MainActivity  {
 	    @Override
 	    protected Boolean doInBackground(String... args) {
 	    	
-	    	user1 = new String(args[0]);
-	    	pass1 = new String(args[1]);
+	    	sitem = new String(args[0]);
+	    	
 	    	
 	    	
 			
@@ -125,18 +124,14 @@ public class LoginActivity extends MainActivity  {
 			
 
 			try {
-				String COMANDOSQL="select * from userdetails where username='"+user1+"' && password='"+pass1+"'";
+				String COMANDOSQL="select * from drugdetails where medicinename='"+sitem+"'";
 				Statement statement = conn.createStatement();
 				rs = statement.executeQuery(COMANDOSQL);
 			if(rs.next()){
 				
-				String query = "delete from cartitems where username = ?";
-			      PreparedStatement preparedStmt = conn.prepareStatement(query);
-			      preparedStmt.setString(1, user1);
-
-			      // execute the preparedstatement
-			      preparedStmt.execute();
-				
+				s1=rs.getString(4);
+				s2=rs.getString(2);
+				s3=rs.getString(3);
 				return true;
 			}
 
@@ -164,13 +159,16 @@ public class LoginActivity extends MainActivity  {
 					
 //					System.out.println("ELSE(JSON) LOOP EXE");
 					try {// try3 open
+						textView22.setText("Side effects : "+s1);
+						textView33.setText("Chemical Composition : "+s2);
+						textView44.setText("Usage : "+s3);
 						
-						Intent intent=new Intent(LoginActivity.this,UserActivity.class);
+						//Intent intent=new Intent(OnlineShopActivity.this,UserActivity.class);
 						//intent.putExtra("latitude", lati);
 						//intent.putExtra("longitude", longi);
 						//intent.putExtra("loginuser", user1);
 					
-						startActivity(intent);			
+					//	startActivity(intent);			
 						
 					} catch (Exception e1) {
 						Toast.makeText(getBaseContext(), e1.toString(),
@@ -187,15 +185,18 @@ public class LoginActivity extends MainActivity  {
 	    		}
 	    		else
 	    		{
-	    			Toast.makeText(getBaseContext(),"Check your credentials!!!" ,Toast.LENGTH_LONG).show();
+	    			Toast.makeText(getBaseContext(),"Medicine not found!!!" ,Toast.LENGTH_LONG).show();
 	    		}
 	    	}
 	    	super.onPostExecute(result1);
 	    }
 	}
 	
-	
-	
-
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
 
 }
